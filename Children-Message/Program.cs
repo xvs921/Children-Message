@@ -21,7 +21,7 @@ namespace Children_Message
                 //swear
                 int saidSwear = rnd.Next(100);
                 bool swearing;
-                if (saidSwear <= 30)
+                if (saidSwear <= 25)
                 {
                     swearing = true;
                 }
@@ -35,13 +35,13 @@ namespace Children_Message
                 string msgText;
                 if (i > 0)
                 {
-                    if (msgTextError <= 30 || childrenList[i - 1].swear == true)
+                    if (msgTextError <= 30 || childrenList[i - 1].Swear == true)
                     {
                         msgText = "Other smthg";
                     }
                     else
                     {
-                        msgText = messageList[i - 1].text;
+                        msgText = messageList[i - 1].Text;
                     }
                 }
                 else
@@ -57,15 +57,15 @@ namespace Children_Message
                 }
                 else //other all children
                 {
-                    childrenList[i - 1].forward = true;
+                    childrenList[i - 1].Forward = true;
 
-                    if (childrenList[i-1].swear == true)
+                    if (childrenList[i-1].Swear == true)
                     {
                         childrenList.Add(new Children(true, false, swearing));
                         messageList.Add(new Message(false, msgText));
                         Message.status = "not forward";
                         Console.WriteLine("Somebody is swearing. The message: "+ msgText);
-                        Console.WriteLine("Children count: " + childrenList.Count);
+                        Console.WriteLine("Children count: " + howManyChild + '/' + childrenList.Count);
                         break;
                     }
                     else
@@ -78,15 +78,31 @@ namespace Children_Message
 
                 if(i+1 == howManyChild)
                 {
-                    Console.WriteLine("Hey! It\'s good. Say stop to swearing. The message: "+ msgText);
-                    Console.WriteLine("Children count: " + childrenList.Count);
+                    if(Message.originaltext == msgText)
+                    {
+                        Console.WriteLine("Excellent! Not swear and the message is fantastic. \nThe message: " + msgText);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Hey! It\'s good. Say stop to swearing. \nThe message: "+ msgText);
+                    }
+                    Console.WriteLine("Children count: " + howManyChild+ '/' +childrenList.Count);
                 }
             }
 
-            Console.WriteLine("History");
+            Console.WriteLine("\nHistory");
             for (int i = 0; i < childrenList.Count; i++)
             {
-                Console.WriteLine(childrenList[i].name + " : " + messageList[i].text);
+                if(i+1 == childrenList.Count)
+                {
+                    Console.WriteLine(childrenList[i].Name + " : " + messageList[i].Text + "\t-Other Info----" + "REC:" + childrenList[i].Received +
+                        "--FW:" + childrenList[i].Forward);
+                }
+                else
+                {
+                Console.WriteLine(childrenList[i].Name + " : " + messageList[i].Text + "\t-Other Info----" + "REC:"+ childrenList[i].Received+
+                    "--FW:"+ childrenList[i].Forward+"--SW:"+ childrenList[i].Swear);
+                }
             }
 
             Console.ReadLine();
