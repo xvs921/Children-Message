@@ -9,7 +9,7 @@ namespace Children_Message
     class Child
     {
         private string name;
-        private bool swear;
+        private bool swearTendency;
         private int messageId;
         public static List<string> nameList = new List<string>() { "John", "David", "Ethan", "Esther", "Dora", "Monica", "Kiara", "Anthony" };
         public static List<Child> childrenList = new List<Child>();
@@ -22,16 +22,16 @@ namespace Children_Message
         }
 
         public string Name { get => name; set => name = value; }
-        public bool Swear { get => swear; set => swear = value; }
+        public bool SwearTendency { get => swearTendency; set => swearTendency = value; }
 
-        public void receive(actual)
+        public void receive(int messageId)
         {
-            Message.messageList[actual].Received = true;
+            Message.messageList[messageId].Received = true;
         }
 
-        public void forward(actual)
+        public void forward(int messageId)
         {
-            Message.messageList[actual].Forwarded = true;
+            Message.messageList[messageId].Forwarded = true;
         }
 
         public void generateName()
@@ -46,11 +46,11 @@ namespace Children_Message
             int saidSwear = rnd.Next(100);
             if (saidSwear <= 25)
             {
-                this.Swear = true;
+                this.SwearTendency = true;
             }
             else
             {
-                this.Swear = false;
+                this.SwearTendency = false;
             }
         }
 

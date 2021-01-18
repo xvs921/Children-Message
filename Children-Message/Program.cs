@@ -10,53 +10,35 @@ namespace Children_Message
     {
         static void Main(string[] args)
         {
-            int childrenCount=5;
+            int childrenCount=childNumber();
+            Random rnd = new Random();
+
             for (int i = 0; i < childrenCount; i++)
             {
                 //text
-                Random rnd = new Random();
-                int msgTextError = rnd.Next(100);
-                string msgText;
-                if (i > 0)
-                {
-                    if (msgTextError <= 30 || Child.childrenList[i - 1].Swear == true)
-                    {
-                        msgText = "Other smthg";
-                    }
-                    else
-                    {
-                        msgText = Message.messageList[i - 1].Text;
-                    }
-                }
-                else
-                {
-                    msgText = Message.originaltext;
-                }
+                string msgText = optionalStringChange();
 
                 //if first
                 if (i == 0)
                 {
-                    Child.childrenList.Add(new Child());
-                    Message.messageList.Add(new Message(true, Message.originaltext));
+                    newEvent(Message.originaltext);
                 }
                 else //other all children
                 {
-                    Child.childrenList[i - 1].Swear = true;  //forward
+                    Child.childrenList[i - 1].SwearTendency = true;  //forward
 
-                    if (Child.childrenList[i-1].Swear == true)
+                    if (Child.childrenList[i-1].SwearTendency == true)
                     {
-                        Child.childrenList.Add(new Child());
-                        Message.messageList.Add(new Message(false, msgText));
-                        Message.status = "not forward";
+                        newEvent(msgText);
+                        //Message.status = "not forward";
                         Console.WriteLine("Somebody is swearing. The message: "+ msgText);
                         Console.WriteLine("Children count: " + childrenCount + '/' + Child.childrenList.Count);
                         break;
                     }
                     else
                     {
-                        Child.childrenList.Add(new Child());
-                        Message.messageList.Add(new Message(true, msgText));
-                        Message.status = "not forward";
+                        newEvent(msgText);
+                        //Message.status = "not forward";
                     }
                 }
 
@@ -79,16 +61,52 @@ namespace Children_Message
             {
                 if(i+1 == Child.childrenList.Count)
                 {
-                    Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:" + Child.childrenList[i].Swear +
-                        "--FW:" + Child.childrenList[i].Swear);
+                    Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:" + Child.childrenList[i].SwearTendency +
+                        "--FW:" + Child.childrenList[i].SwearTendency);
                 }
                 else
                 {
-                Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:"+ Child.childrenList[i].Swear +
-                    "--FW:"+ Child.childrenList[i].Swear + "--SW:"+ Child.childrenList[i].Swear);
+                Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:"+ Child.childrenList[i].SwearTendency +
+                    "--FW:"+ Child.childrenList[i].SwearTendency + "--SW:"+ Child.childrenList[i].SwearTendency);
                 }
             }
             Console.ReadLine();
+        }
+
+        static int childNumber()
+        {
+            Random rnd = new Random();
+            int howManyChild = rnd.Next(4, 8);
+            return howManyChild;
+        }
+
+        static void newEvent(string text)
+        {
+            Child.childrenList.Add(new Child());
+            Message.messageList.Add(new Message(text));
+        }
+
+        static string optionalStringChange()
+        {
+            Random rnd = new Random();
+            int msgTextError = rnd.Next(100);
+            string msgText;
+            if (Child.childrenList.Count > 0)
+            {
+                if (msgTextError <= 30 || Child.childrenList[i - 1].Swear == true)
+                {
+                    msgText = "Other smthg";
+                }
+                else
+                {
+                    msgText = Message.messageList[i - 1].Text;
+                }
+            }
+            else
+            {
+                msgText = Message.originaltext;
+            }
+            return msgText;
         }
     }
 }
