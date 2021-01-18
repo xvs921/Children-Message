@@ -10,8 +10,12 @@ namespace Children_Message
     {
         private bool possibleForward;
         private string text;
+        private bool Received;
+        private bool forwarded;
         public static string status = "forward"; //forward, not forward
         public static string originaltext = "Peter has a new red car";
+
+        public static List<Message> ss = new List<Message>();
 
         public Message(bool possibleForward, string text)
         {

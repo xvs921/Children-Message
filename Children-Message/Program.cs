@@ -10,38 +10,22 @@ namespace Children_Message
     {
         static void Main(string[] args)
         {
-            List<Children> childrenList = new List<Children>();
-            List<Message> messageList = new List<Message>();
-
-            Random rnd = new Random();
-            int howManyChild = rnd.Next(4, 8);
-
-            for (int i = 0; i < howManyChild; i++)
+            int childrenCount=5;
+            for (int i = 0; i < childrenCount; i++)
             {
-                //swear
-                int saidSwear = rnd.Next(100);
-                bool swearing;
-                if (saidSwear <= 25)
-                {
-                    swearing = true;
-                }
-                else
-                {
-                    swearing = false;
-                }
-
                 //text
+                Random rnd = new Random();
                 int msgTextError = rnd.Next(100);
                 string msgText;
                 if (i > 0)
                 {
-                    if (msgTextError <= 30 || childrenList[i - 1].Swear == true)
+                    if (msgTextError <= 30 || Child.childrenList[i - 1].Swear == true)
                     {
                         msgText = "Other smthg";
                     }
                     else
                     {
-                        msgText = messageList[i - 1].Text;
+                        msgText = Message.messageList[i - 1].Text;
                     }
                 }
                 else
@@ -52,31 +36,31 @@ namespace Children_Message
                 //if first
                 if (i == 0)
                 {
-                    childrenList.Add(new Children(true, false, swearing));
-                    messageList.Add(new Message(true, Message.originaltext));
+                    Child.childrenList.Add(new Child());
+                    Message.messageList.Add(new Message(true, Message.originaltext));
                 }
                 else //other all children
                 {
-                    childrenList[i - 1].Forward = true;
+                    Child.childrenList[i - 1].Swear = true;  //forward
 
-                    if (childrenList[i-1].Swear == true)
+                    if (Child.childrenList[i-1].Swear == true)
                     {
-                        childrenList.Add(new Children(true, false, swearing));
-                        messageList.Add(new Message(false, msgText));
+                        Child.childrenList.Add(new Child());
+                        Message.messageList.Add(new Message(false, msgText));
                         Message.status = "not forward";
                         Console.WriteLine("Somebody is swearing. The message: "+ msgText);
-                        Console.WriteLine("Children count: " + howManyChild + '/' + childrenList.Count);
+                        Console.WriteLine("Children count: " + childrenCount + '/' + Child.childrenList.Count);
                         break;
                     }
                     else
                     {
-                        childrenList.Add(new Children(true, false, swearing));
-                        messageList.Add(new Message(true, msgText));
+                        Child.childrenList.Add(new Child());
+                        Message.messageList.Add(new Message(true, msgText));
                         Message.status = "not forward";
                     }
                 }
 
-                if(i+1 == howManyChild)
+                if(i+1 == childrenCount)
                 {
                     if(Message.originaltext == msgText)
                     {
@@ -86,25 +70,24 @@ namespace Children_Message
                     {
                         Console.WriteLine("Hey! It\'s good. Say stop to swearing. \nThe message: "+ msgText);
                     }
-                    Console.WriteLine("Children count: " + howManyChild+ '/' +childrenList.Count);
+                    Console.WriteLine("Children count: " + childrenCount + '/' +Child.childrenList.Count);
                 }
             }
 
             Console.WriteLine("\nHistory");
-            for (int i = 0; i < childrenList.Count; i++)
+            for (int i = 0; i < Child.childrenList.Count; i++)
             {
-                if(i+1 == childrenList.Count)
+                if(i+1 == Child.childrenList.Count)
                 {
-                    Console.WriteLine(childrenList[i].Name + " : " + messageList[i].Text + "\t-Other Info----" + "REC:" + childrenList[i].Received +
-                        "--FW:" + childrenList[i].Forward);
+                    Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:" + Child.childrenList[i].Swear +
+                        "--FW:" + Child.childrenList[i].Swear);
                 }
                 else
                 {
-                Console.WriteLine(childrenList[i].Name + " : " + messageList[i].Text + "\t-Other Info----" + "REC:"+ childrenList[i].Received+
-                    "--FW:"+ childrenList[i].Forward+"--SW:"+ childrenList[i].Swear);
+                Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:"+ Child.childrenList[i].Swear +
+                    "--FW:"+ Child.childrenList[i].Swear + "--SW:"+ Child.childrenList[i].Swear);
                 }
             }
-
             Console.ReadLine();
         }
     }
