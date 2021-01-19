@@ -13,7 +13,7 @@ namespace Children_Message
         private bool swear;
         private bool received;
         private bool forwarded;
-        //status here
+        private string status;
         public static string originaltext = "Peter has a new red car";
 
         public static List<Message> messageList = new List<Message>();
@@ -21,6 +21,8 @@ namespace Children_Message
         public Message(string text)
         {
             this.Text = text;
+            Status st = new Status("received");
+            this.status = st.Name; 
         }
 
         public int Id { get => id; set => id = value; }
@@ -28,6 +30,7 @@ namespace Children_Message
         public bool Swear { get => swear; set => swear = value; }
         public bool Received { get => received; set => received = value; }
         public bool Forwarded { get => forwarded; set => forwarded = value; }
+        public string Status { get => status; set => status = value; }
 
 
     }

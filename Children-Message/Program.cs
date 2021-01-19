@@ -10,26 +10,25 @@ namespace Children_Message
     {
         static void Main(string[] args)
         {
-            int childrenCount=childNumber();
+            Helper hlp = new Helper();
+            int childrenCount=hlp.childNumber();
             Random rnd = new Random();
 
             for (int i = 0; i < childrenCount; i++)
             {
-                //text
-                string msgText = optionalStringChange();
+                string msgText = hlp.optionalStringChange(i);
 
-                //if first
                 if (i == 0)
                 {
-                    newEvent(Message.originaltext);
+                    hlp.newEvent(Message.originaltext);
                 }
-                else //other all children
+                else
                 {
-                    Child.childrenList[i - 1].SwearTendency = true;  //forward
+                    //forward
 
                     if (Child.childrenList[i-1].SwearTendency == true)
                     {
-                        newEvent(msgText);
+                        hlp.newEvent(msgText);
                         //Message.status = "not forward";
                         Console.WriteLine("Somebody is swearing. The message: "+ msgText);
                         Console.WriteLine("Children count: " + childrenCount + '/' + Child.childrenList.Count);
@@ -37,76 +36,21 @@ namespace Children_Message
                     }
                     else
                     {
-                        newEvent(msgText);
+                        hlp.newEvent(msgText);
                         //Message.status = "not forward";
                     }
                 }
 
                 if(i+1 == childrenCount)
                 {
-                    if(Message.originaltext == msgText)
-                    {
-                        Console.WriteLine("Excellent! Not swear and the message is fantastic. \nThe message: " + msgText);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Hey! It\'s good. Say stop to swearing. \nThe message: "+ msgText);
-                    }
-                    Console.WriteLine("Children count: " + childrenCount + '/' +Child.childrenList.Count);
+                    hlp.endCircle(msgText, childrenCount);
                 }
             }
 
             Console.WriteLine("\nHistory");
-            for (int i = 0; i < Child.childrenList.Count; i++)
-            {
-                if(i+1 == Child.childrenList.Count)
-                {
-                    Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:" + Child.childrenList[i].SwearTendency +
-                        "--FW:" + Child.childrenList[i].SwearTendency);
-                }
-                else
-                {
-                Console.WriteLine(Child.childrenList[i].Name + " : " + Message.messageList[i].Text + "\t-Other Info----" + "REC:"+ Child.childrenList[i].SwearTendency +
-                    "--FW:"+ Child.childrenList[i].SwearTendency + "--SW:"+ Child.childrenList[i].SwearTendency);
-                }
-            }
+            hlp.writeHistory();
+
             Console.ReadLine();
-        }
-
-        static int childNumber()
-        {
-            Random rnd = new Random();
-            int howManyChild = rnd.Next(4, 8);
-            return howManyChild;
-        }
-
-        static void newEvent(string text)
-        {
-            Child.childrenList.Add(new Child());
-            Message.messageList.Add(new Message(text));
-        }
-
-        static string optionalStringChange()
-        {
-            Random rnd = new Random();
-            int msgTextError = rnd.Next(100);
-            string msgText;
-            if (Child.childrenList.Count > 0)
-            {
-                if (msgTextError <= 30 || Child.childrenList[i - 1].Swear == true)
-                {
-                    msgText = "Other smthg";
-                }
-                else
-                {
-                    msgText = Message.messageList[i - 1].Text;
-                }
-            }
-            else
-            {
-                msgText = Message.originaltext;
-            }
-            return msgText;
         }
     }
 }
