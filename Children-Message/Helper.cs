@@ -35,20 +35,20 @@ namespace Children_Message
             Message.messageList.Add(new Message(text));
         }
 
-        public string optionalStringChange(int i)
+        public string optionalStringChange(int actual)
         {
             Random rnd = new Random();
             int msgTextError = rnd.Next(100);
             string msgText;
             if (Child.childrenList.Count > 0)
             {
-                if (msgTextError <= 30 || Child.childrenList[i - 1].SwearTendency == true)
+                if (msgTextError <= 30 || Child.childrenList[actual - 1].SwearTendency == true)
                 {
                     msgText = "Other smthg";
                 }
                 else
                 {
-                    msgText = Message.messageList[i - 1].Text;
+                    msgText = Message.messageList[actual - 1].Text;
                 }
             }
             else

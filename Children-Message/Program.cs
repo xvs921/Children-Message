@@ -11,7 +11,7 @@ namespace Children_Message
         static void Main(string[] args)
         {
             Helper hlp = new Helper();
-            int childrenCount=hlp.childNumber();
+            int childrenCount = hlp.childNumber();
             Random rnd = new Random();
 
             for (int i = 0; i < childrenCount; i++)
@@ -24,8 +24,6 @@ namespace Children_Message
                 }
                 else
                 {
-                    //forward
-
                     if (Child.childrenList[i-1].SwearTendency == true)
                     {
                         hlp.newEvent(msgText);
